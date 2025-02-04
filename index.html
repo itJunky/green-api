@@ -25,26 +25,38 @@
 			var ApiTokenInstance = document.getElementById("ApiTokenInstance").value;
 			var APIURL = "https://7103.api.greenapi.com" + "/waInstance" + idInstance + func_name + ApiTokenInstance;
 
-			xmlHttp.open( "GET", APIURL, false ); // false for synchronous request
-			xmlHttp.send( null );
-			return xmlHttp.responseText;
-		}
-
-		function sendData(func_name) {
-			var xmlHttp = new XMLHttpRequest();
-			var idInstance = document.getElementById("idInstance").value;
-			var ApiTokenInstance = document.getElementById("ApiTokenInstance").value;
-			var APIURL = "https://7103.api.greenapi.com" + "/waInstance" + idInstance + func_name + ApiTokenInstance;
-
-			xmlHttp.open( "POST", APIURL, false ); // false for synchronous request
-			xmlHttp.send( null );
-			return xmlHttp.responseText;
-			
+			switch(func_name) {
+				case "/sendMessage/":
+					var chat = document.getElementById("chatId").value;
+					var msg = document.getElementById("message").value;
+          
+					xmlHttp.open( "POST", APIURL, false ); // false for synchronous request
+					xmlHttp.send(JSON.stringify({
+						chatId: chat,
+						message: msg
+					}));
+					return xmlHttp.responseText;
+				case "/sendFileByUrl/":
+					var chat = document.getElementById("chat2Id").value;
+					var url = document.getElementById("imgUrl").value;
+					xmlHttp.open( "POST", APIURL, false );
+					xmlHttp.send(JSON.stringify({
+            chatId: chat,
+            urlFile: url,
+						fileName: 'img.png',
+						caption: 'testcap'
+          }));
+					break;
+				default:
+					xmlHttp.open( "GET", APIURL, false ); // false for synchronous request
+					xmlHttp.send( null );
+					return xmlHttp.responseText;
+			}
 		}
 
 		function sendMessage() {
 			var ansField = document.getElementById("fAnswer");
-			ansField.value = sendData("/sendMessage/");
+			ansField.value = sendReq("/sendMessage/");
 		}
 
 		function getSettings() {
@@ -55,6 +67,11 @@
 		function getStateInstance() {
 			var ansField = document.getElementById("fAnswer");
 			ansField.value = sendReq("/getStateInstance/");
+		}
+
+		function sendFile() {
+			var ansField = document.getElementById("fAnswer");
+			ansField.value = sendReq("/sendFileByUrl/");
 		}
 	</script>
 	<BODY>
@@ -68,15 +85,15 @@
 				</form>
 				</br>
 				<form>
-					<input type"text" value="77771234567"></br>
-					<input type"text" value="Hello World!"></br>
-					<button type="button" onclick="sendMessage()">sendMessage"</button></br>
+					<input type"text" id="chatId" value="77771234567"></br>
+					<input type"text" id="message" value="Hello World!"></br>
+					<button type="button" onclick="sendMessage()">sendMessage</button></br>
 				</form>
 				</br>
 				<form>
-					<input type"text" value="77771234567"></br>
-					<input type"text" value="https://site.org/img/horse.png"></br>
-					<input type="submit" value="sendFileByUrl"></br>
+					<input type"text" id="chat2Id" value="77771234567"></br>
+					<input type"text" id="imgUrl" value="https://site.org/img/horse.png"></br>
+					<button type="button" onclick="sendFile()">sendFileByUrl</button></br>
 				</form>
 			</div>
 			<div>
