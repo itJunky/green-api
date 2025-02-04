@@ -1,4 +1,9 @@
-<HTML>
+<!DOCTYPE html>
+<HTML lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Green-API test</title>
+  </head>
   <style>				
 		.container {
 			display: flex;
@@ -9,34 +14,77 @@
 			padding-left: 2%;
 		}
 		textarea {
-			width:	200%;
+			width:	300%;
 			height: 80%;
 		}
 	</style>
-	<div class="container">
-		<div>
-			<form>		
-				<input type="text" value="idInstance"></br>
-				<input type="text" value="ApiTokenInstance"></br>
-				<input type="submit" value="getSettings"></br>
-				<input type="submit" value="getStateInstance"></br>
-			</form>
-			<form>
-				<input type"text" value="77771234567"></br>
-				<input type"text" value="Hello World!"></br>
-				<input type="submit" value="sendMessage"></br>
-			</form>
-			<form>
-				<input type"text" value="77771234567"></br>
-				<input type"text" value="https://site.org/img/horse.png"></br>
-				<input type="submit" value="sendFileByUrl"></br>
-			</form>
+	<script>
+		function sendReq(func_name) {
+			var xmlHttp = new XMLHttpRequest();
+			var idInstance = document.getElementById("idInstance").value;
+			var ApiTokenInstance = document.getElementById("ApiTokenInstance").value;
+			var APIURL = "https://7103.api.greenapi.com" + "/waInstance" + idInstance + func_name + ApiTokenInstance;
+
+			xmlHttp.open( "GET", APIURL, false ); // false for synchronous request
+			xmlHttp.send( null );
+			return xmlHttp.responseText;
+		}
+
+		function sendData(func_name) {
+			var xmlHttp = new XMLHttpRequest();
+			var idInstance = document.getElementById("idInstance").value;
+			var ApiTokenInstance = document.getElementById("ApiTokenInstance").value;
+			var APIURL = "https://7103.api.greenapi.com" + "/waInstance" + idInstance + func_name + ApiTokenInstance;
+
+			xmlHttp.open( "POST", APIURL, false ); // false for synchronous request
+			xmlHttp.send( null );
+			return xmlHttp.responseText;
+			
+		}
+
+		function sendMessage() {
+			var ansField = document.getElementById("fAnswer");
+			ansField.value = sendData("/sendMessage/");
+		}
+
+		function getSettings() {
+			var ansField = document.getElementById("fAnswer");
+			ansField.value = sendReq("/getSettings/");
+		}
+
+		function getStateInstance() {
+			var ansField = document.getElementById("fAnswer");
+			ansField.value = sendReq("/getStateInstance/");
+		}
+	</script>
+	<BODY>
+		<div class="container">
+			<div>
+				<form>		
+					<input type="text" id="idInstance" value="idInstance"></br>
+					<input type="text" id="ApiTokenInstance" value="ApiTokenInstance"></br>
+					<button type='button' onclick="getSettings()">getSettings</button></br>
+					<button type="button" onclick="getStateInstance()">getStateInstance</button></br>
+				</form>
+				</br>
+				<form>
+					<input type"text" value="77771234567"></br>
+					<input type"text" value="Hello World!"></br>
+					<button type="button" onclick="sendMessage()">sendMessage"</button></br>
+				</form>
+				</br>
+				<form>
+					<input type"text" value="77771234567"></br>
+					<input type"text" value="https://site.org/img/horse.png"></br>
+					<input type="submit" value="sendFileByUrl"></br>
+				</form>
+			</div>
+			<div>
+				<form>
+					<label for="fAnswer">Ответ:</label></br>
+					<textarea type="text" class='fAnswer' id='fAnswer'></textarea>
+				</form>
+			</div>
 		</div>
-		<div>
-			<form>
-				<label for="fAnswer">Ответ:</label></br>
-				<textarea type="text" id='fAnswer'></textarea>
-			</form>
-		</div>
-	</div>
+	</BODY>
 </HTML>
