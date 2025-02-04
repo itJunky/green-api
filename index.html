@@ -1,90 +1,90 @@
 <!DOCTYPE html>
 <HTML lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Green-API test</title>
-  </head>
-  <style>				
-		.container {
-			display: flex;
-			padding-left: 10%;
-			padding-top:	2%
-		}
-		div {
-			padding-left: 2%;
-		}
-		textarea {
-			width:	300%;
-			height: 300px;
-		}
-	</style>
-	<script>
-		function sendReq(func_name) {
-			var xmlHttp = new XMLHttpRequest();
-			var idInstance = document.getElementById("idInstance").value;
-			var ApiTokenInstance = document.getElementById("ApiTokenInstance").value;
-			var ansField = document.getElementById("fAnswer");
-			var APIURL = "https://7103.api.greenapi.com" + "/waInstance" + idInstance + func_name + ApiTokenInstance;
+        <head>
+              <meta charset="UTF-8" />
+              <title>Green-API test</title>
+        </head>
+        <style>				
+        	.container {
+        		display: flex;
+        		padding-left: 10%;
+        		padding-top:	2%
+        	}
+        	div {
+        		padding-left: 2%;
+        	}
+        	textarea {
+        		width:	300%;
+        		height: 300px;
+        	}
+        </style>
+        <script>
+        	function sendReq(func_name) {
+        		var xmlHttp = new XMLHttpRequest();
+        		var idInstance = document.getElementById("idInstance").value;
+        		var ApiTokenInstance = document.getElementById("ApiTokenInstance").value;
+        		var ansField = document.getElementById("fAnswer");
+        		var APIURL = "https://7103.api.greenapi.com" + "/waInstance" + idInstance + func_name + ApiTokenInstance;
 
-			switch(func_name) {
-				case "/sendMessage/":
-					var chat = document.getElementById("chatId").value;
-					var msg = document.getElementById("message").value;
+        		switch(func_name) {
+        			case "/sendMessage/":
+        				var chat = document.getElementById("chatId").value;
+        				var msg = document.getElementById("message").value;
           
-					xmlHttp.open( "POST", APIURL, false ); // false for synchronous request
-					xmlHttp.send(JSON.stringify({
-						chatId: chat,
-						message: msg
-					}));
-					ansField.value = xmlHttp.responseText;
-					break;
-				case "/sendFileByUrl/":
-					var chat = document.getElementById("chat2Id").value;
-					var url = document.getElementById("imgUrl").value;
+        				xmlHttp.open( "POST", APIURL, false ); // false for synchronous request
+        				xmlHttp.send(JSON.stringify({
+        					chatId: chat,
+        					message: msg
+        				}));
+        				ansField.value = xmlHttp.responseText;
+        				break;
+        			case "/sendFileByUrl/":
+        				var chat = document.getElementById("chat2Id").value;
+        				var url = document.getElementById("imgUrl").value;
 
-					xmlHttp.open( "POST", APIURL, false );
-					xmlHttp.send(JSON.stringify({
-            chatId: chat,
-            urlFile: url,
-						fileName: 'img.png',
-						caption: 'testcap'
-          }));
-					ansField.value = xmlHttp.responseText;
-					break;
-				default:
-					xmlHttp.open( "GET", APIURL, false ); // false for synchronous request
-					xmlHttp.send( null );
-					ansField.value = xmlHttp.responseText;
-					break;
-			}
-		}
-	</script>
-	<BODY>
-		<div class="container">
-			<div>
-				<form>		
-					<input type="text" id="idInstance" value="idInstance"></br>
-					<input type="text" id="ApiTokenInstance" value="ApiTokenInstance"></br>
-					<button type='button' onclick="sendReq('/getSettings/')">getSettings</button></br>
-					<button type="button" onclick='sendReq("/getStateInstance/")'>getStateInstance</button></br>
-				</form>
-				</br>
-				<form>
-					<input type"text" id="chatId" value="77771234567"></br>
-					<input type"text" id="message" value="Hello World!"></br>
-					<button type="button" onclick="sendReq('/sendMessage/')">sendMessage</button></br>
-				</form>
-				</br>
-				<form>
-					<input type"text" id="chat2Id" value="77771234567"></br>
-					<input type"text" id="imgUrl" value="https://site.org/img/horse.png"></br>
-					<button type="button" onclick="sendReq('/sendFileByUrl/')">sendFileByUrl</button></br>
-				</form>
-			</div>
-			<div>
-				<label for="fAnswer">Ответ:</label></br>
-				<textarea type="text" class='fAnswer' id='fAnswer'></textarea>
-			</div>
-		</div>
-	</BODY>
+        				xmlHttp.open( "POST", APIURL, false );
+        				xmlHttp.send(JSON.stringify({
+                                                chatId: chat,
+                                                urlFile: url,
+        					fileName: 'img.png',
+        					caption: 'testcap'
+                                        }));
+        				ansField.value = xmlHttp.responseText;
+        				break;
+        			default:
+        				xmlHttp.open( "GET", APIURL, false ); // false for synchronous request
+        				xmlHttp.send( null );
+        				ansField.value = xmlHttp.responseText;
+        				break;
+        		}
+        	}
+        </script>
+        <BODY>
+        	<div class="container">
+        		<div>
+        			<form>		
+        				<input type="text" id="idInstance" value="idInstance"></br>
+        				<input type="text" id="ApiTokenInstance" value="ApiTokenInstance"></br>
+        				<button type='button' onclick="sendReq('/getSettings/')">getSettings</button></br>
+        				<button type="button" onclick='sendReq("/getStateInstance/")'>getStateInstance</button></br>
+        			</form>
+        			</br>
+        			<form>
+        				<input type"text" id="chatId" value="77771234567"></br>
+        				<input type"text" id="message" value="Hello World!"></br>
+        				<button type="button" onclick="sendReq('/sendMessage/')">sendMessage</button></br>
+        			</form>
+        			</br>
+        			<form>
+        				<input type"text" id="chat2Id" value="77771234567"></br>
+        				<input type"text" id="imgUrl" value="https://site.org/img/horse.png"></br>
+        				<button type="button" onclick="sendReq('/sendFileByUrl/')">sendFileByUrl</button></br>
+        			</form>
+        		</div>
+        		<div>
+        			<label for="fAnswer">Ответ:</label></br>
+        			<textarea type="text" class='fAnswer' id='fAnswer'></textarea>
+        		</div>
+        	</div>
+        </BODY>
 </HTML>
