@@ -15,7 +15,7 @@
 		}
 		textarea {
 			width:	300%;
-			height: 80%;
+			height: 300px;
 		}
 	</style>
 	<script>
@@ -23,6 +23,7 @@
 			var xmlHttp = new XMLHttpRequest();
 			var idInstance = document.getElementById("idInstance").value;
 			var ApiTokenInstance = document.getElementById("ApiTokenInstance").value;
+			var ansField = document.getElementById("fAnswer");
 			var APIURL = "https://7103.api.greenapi.com" + "/waInstance" + idInstance + func_name + ApiTokenInstance;
 
 			switch(func_name) {
@@ -35,10 +36,12 @@
 						chatId: chat,
 						message: msg
 					}));
-					return xmlHttp.responseText;
+					ansField.value = xmlHttp.responseText;
+					break;
 				case "/sendFileByUrl/":
 					var chat = document.getElementById("chat2Id").value;
 					var url = document.getElementById("imgUrl").value;
+
 					xmlHttp.open( "POST", APIURL, false );
 					xmlHttp.send(JSON.stringify({
             chatId: chat,
@@ -46,32 +49,14 @@
 						fileName: 'img.png',
 						caption: 'testcap'
           }));
+					ansField.value = xmlHttp.responseText;
 					break;
 				default:
 					xmlHttp.open( "GET", APIURL, false ); // false for synchronous request
 					xmlHttp.send( null );
-					return xmlHttp.responseText;
+					ansField.value = xmlHttp.responseText;
+					break;
 			}
-		}
-
-		function sendMessage() {
-			var ansField = document.getElementById("fAnswer");
-			ansField.value = sendReq("/sendMessage/");
-		}
-
-		function getSettings() {
-			var ansField = document.getElementById("fAnswer");
-			ansField.value = sendReq("/getSettings/");
-		}
-
-		function getStateInstance() {
-			var ansField = document.getElementById("fAnswer");
-			ansField.value = sendReq("/getStateInstance/");
-		}
-
-		function sendFile() {
-			var ansField = document.getElementById("fAnswer");
-			ansField.value = sendReq("/sendFileByUrl/");
 		}
 	</script>
 	<BODY>
@@ -80,27 +65,25 @@
 				<form>		
 					<input type="text" id="idInstance" value="idInstance"></br>
 					<input type="text" id="ApiTokenInstance" value="ApiTokenInstance"></br>
-					<button type='button' onclick="getSettings()">getSettings</button></br>
-					<button type="button" onclick="getStateInstance()">getStateInstance</button></br>
+					<button type='button' onclick="sendReq('/getSettings/')">getSettings</button></br>
+					<button type="button" onclick='sendReq("/getStateInstance/")'>getStateInstance</button></br>
 				</form>
 				</br>
 				<form>
 					<input type"text" id="chatId" value="77771234567"></br>
 					<input type"text" id="message" value="Hello World!"></br>
-					<button type="button" onclick="sendMessage()">sendMessage</button></br>
+					<button type="button" onclick="sendReq('/sendMessage/')">sendMessage</button></br>
 				</form>
 				</br>
 				<form>
 					<input type"text" id="chat2Id" value="77771234567"></br>
 					<input type"text" id="imgUrl" value="https://site.org/img/horse.png"></br>
-					<button type="button" onclick="sendFile()">sendFileByUrl</button></br>
+					<button type="button" onclick="sendReq('/sendFileByUrl/')">sendFileByUrl</button></br>
 				</form>
 			</div>
 			<div>
-				<form>
-					<label for="fAnswer">Ответ:</label></br>
-					<textarea type="text" class='fAnswer' id='fAnswer'></textarea>
-				</form>
+				<label for="fAnswer">Ответ:</label></br>
+				<textarea type="text" class='fAnswer' id='fAnswer'></textarea>
 			</div>
 		</div>
 	</BODY>
